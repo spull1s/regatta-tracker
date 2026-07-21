@@ -1,0 +1,6 @@
+{
+  "name": "Regatta Tracker",
+  "description": "An interactive, beautiful, and responsive tracker for Township regattas. Plan your weeks, monitor average points, analyze long-term trends, and sync data seamlessly across devices in dark or light mode.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
