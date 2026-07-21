@@ -35,7 +35,7 @@
             max-width: 600px;
         }
 
-        header, .stats-card, .archive-card {
+        header, .stats-card, .archive-card, .sync-card {
             margin-bottom: 16px;
             background: var(--card-bg);
             padding: 16px;
@@ -130,7 +130,7 @@
 
         .badge.passed { background: #c6f6d5; color: #22543d; }
 
-        /* Arkivering & Diagram */
+        /* Arkivering */
         .archive-card {
             display: none;
             text-align: center;
@@ -138,20 +138,48 @@
             border-color: #bee3f8;
         }
 
+        /* Knappar & Synk */
         .btn {
             background: var(--primary);
             color: white;
             border: none;
             padding: 10px 20px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
-            margin-top: 8px;
             width: 100%;
+            transition: opacity 0.2s;
         }
 
         .btn:hover { opacity: 0.9; }
+        .btn-secondary { background: #718096; }
+        .btn-success { background: var(--success); }
+
+        .sync-card {
+            background: #f7fafc;
+            border-style: dashed;
+            text-align: center;
+        }
+
+        .sync-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .sync-textarea {
+            width: 100%;
+            margin-top: 10px;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            resize: vertical;
+            display: none;
+        }
 
         .chart-container {
             position: relative;
@@ -161,11 +189,7 @@
             border-radius: 8px;
         }
 
-        svg {
-            width: 100%;
-            height: 120px;
-            overflow: visible;
-        }
+        svg { width: 100%; height: 120px; overflow: visible; }
 
         .history-list {
             margin-top: 12px;
@@ -204,7 +228,7 @@
     <div id="archive-section" class="archive-card">
         <h3>🎉 Regatta avklarad!</h3>
         <p style="font-size: 0.9rem; margin: 4px 0 10px; color: #4a5568;">Spara den här regattan i historiken och gör dig redo för nästa.</p>
-        <button class="btn" onclick="archiveCurrentRegatta()">Arkivera & Starta Nästa 🚀</button>
+        <button class="btn btn-success" onclick="archiveCurrentRegatta()">Arkivera & Starta Nästa 🚀</button>
     </div>
 
     <div id="history-section" class="stats-card" style="display: none;">
@@ -227,6 +251,20 @@
 
         <div class="history-list" id="history-rows"></div>
     </div>
+
+    <!-- SYNKA MELLAN ENHETER -->
+    <div class="sync-card">
+        <h3 style="font-size: 1rem; color: #4a5568;">🔄 Synka mellan mobil & PC</h3>
+        <p style="font-size: 0.8rem; color: #718096; margin-top: 4px;">Flytta din data mellan enheter med en kod.</p>
+        
+        <div class="sync-actions">
+            <button class="btn btn-secondary" onclick="exportData()">📤 Kopiera kod</button>
+            <button class="btn" onclick="showImport()">📥 Klistra in</button>
+        </div>
+
+        <textarea id="import-box" class="sync-textarea" rows="3" placeholder="Klistra in din sync-kod här..."></textarea>
+        <button id="import-btn" class="btn btn-success" style="margin-top: 8px; display: none;" onclick="importData()">Spara & Läs in 🚀</button>
+    </div>
 </div>
 
 <script>
@@ -235,7 +273,6 @@
     let pointsData = {};
     let historyData = [];
 
-    // Ladda data
     try {
         const savedConfig = localStorage.getItem('regatta_config');
         if (savedConfig) config = JSON.parse(savedConfig);
@@ -296,7 +333,6 @@
         }
     }
 
-    // Kolla om alla 4 veckor har fyllts i för att visa arkiveringsknappen
     function checkCompletion() {
         const allDone = [1, 2, 3, 4].every(num => pointsData[num] && parseInt(pointsData[num]) >= 0);
         document.getElementById('archive-section').style.display = allDone ? 'block' : 'none';
@@ -308,7 +344,6 @@
             total += parseInt(pointsData[i]) || 0;
         }
 
-        // Lägg till i historiken
         const record = {
             theme: config.theme || "Regatta",
             totalPoints: total,
@@ -317,12 +352,10 @@
         historyData.push(record);
         localStorage.setItem('regatta_history', JSON.stringify(historyData));
 
-        // Räkna ut nästa startdatum automatiskt (4 veckor = 28 dagar framåt)
         const parts = config.startDate.split('-');
         let nextDate = new Date(parts[0], parts[1] - 1, parts[2]);
         nextDate.setDate(nextDate.getDate() + 28);
 
-        // Nollställ nuvarande tracker för nästa omgång
         config.theme = ""; 
         config.startDate = formatDate(nextDate);
         pointsData = {};
@@ -330,7 +363,6 @@
         localStorage.setItem('regatta_config', JSON.stringify(config));
         localStorage.setItem('regatta_points', JSON.stringify(pointsData));
 
-        // Uppdatera UI
         themeInput.value = "";
         startDateInput.value = config.startDate;
         
@@ -343,6 +375,51 @@
         return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     }
 
+    /* --- SYNKA-FUNKTIONER --- */
+    function exportData() {
+        const allData = { config, points: pointsData, history: historyData };
+        // Gör om datan till en Base64-sträng så den blir en snygg token utan citattecken
+        const encoded = btoa(encodeURIComponent(JSON.stringify(allData)));
+        
+        navigator.clipboard.writeText(encoded).then(() => {
+            alert("✅ Sync-kod kopierad till urklipp!\n\nSkicka koden till dig själv (mail/chat) och klistra in den på din andra enhet.");
+        }).catch(() => {
+            // Backup om urklipp blockeras av webbläsaren
+            const box = document.getElementById('import-box');
+            box.value = encoded;
+            box.style.display = 'block';
+            box.select();
+            alert("Kopiera koden i textfältet nedan!");
+        });
+    }
+
+    function showImport() {
+        const box = document.getElementById('import-box');
+        const btn = document.getElementById('import-btn');
+        box.style.display = 'block';
+        btn.style.display = 'block';
+        box.focus();
+    }
+
+    function importData() {
+        const box = document.getElementById('import-box');
+        const input = box.value.trim();
+        if (!input) return;
+
+        try {
+            const decoded = JSON.parse(decodeURIComponent(atob(input)));
+            if (decoded.config) localStorage.setItem('regatta_config', JSON.stringify(decoded.config));
+            if (decoded.points) localStorage.setItem('regatta_points', JSON.stringify(decoded.points));
+            if (decoded.history) localStorage.setItem('regatta_history', JSON.stringify(decoded.history));
+            
+            alert("🎉 Datan har synkats!");
+            location.reload();
+        } catch(e) {
+            alert("❌ Ogiltig sync-kod! Kontrollera att du fick med hela texten.");
+        }
+    }
+    /* ------------------------ */
+
     function renderHistory() {
         const historySection = document.getElementById('history-section');
         const rowsContainer = document.getElementById('history-rows');
@@ -354,12 +431,10 @@
         }
         historySection.style.display = 'block';
 
-        // Stats
         document.getElementById('total-regattas').innerText = historyData.length;
         const allTimeSum = historyData.reduce((sum, r) => sum + r.totalPoints, 0);
         document.getElementById('all-time-points').innerText = allTimeSum;
 
-        // Lista rader
         rowsContainer.innerHTML = '';
         historyData.slice().reverse().forEach(r => {
             rowsContainer.innerHTML += `
@@ -370,13 +445,12 @@
             `;
         });
 
-        // Rita SVG-diagram dynamiskt
         if (historyData.length > 0) {
             const width = 500;
             const height = 100;
             const padding = 10;
             
-            const maxVal = Math.max(...historyData.map(r => r.totalPoints), 6000); // lägst skala till 6000 poäng
+            const maxVal = Math.max(...historyData.map(r => r.totalPoints), 6000);
             const minVal = Math.min(...historyData.map(r => r.totalPoints), 0);
 
             let pointsArray = [];
@@ -384,21 +458,16 @@
 
             historyData.forEach((r, idx) => {
                 const x = padding + idx * step;
-                // Skala y-axeln
                 const y = height - padding - ((r.totalPoints - minVal) / (maxVal - minVal || 1)) * (height - padding * 2);
                 pointsArray.push(`${x},${y}`);
             });
 
             const pointsStr = pointsArray.join(' ');
-            
-            // Generera punkter och linjer i SVG:n
             let svgContent = `<polyline points="${pointsStr}" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
             
-            // Rita prickar på varje mätpunkt
             historyData.forEach((r, idx) => {
                 const [x, y] = pointsArray[idx].split(',');
                 svgContent += `<circle cx="${x}" cy="${y}" r="4" fill="var(--accent)" />`;
-                // Lägg till text ovanför om det inte är för trångt
                 if(historyData.length <= 6) {
                     svgContent += `<text x="${x}" y="${y - 8}" font-size="10" font-weight="bold" text-anchor="middle" fill="var(--text)">${r.totalPoints}</text>`;
                 }
@@ -467,7 +536,6 @@
         }
     }
 
-    // Kör igång
     renderTracker();
     renderHistory();
     checkCompletion();
