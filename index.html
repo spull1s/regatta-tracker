@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Township Regatta Tracker</title>
+    <style>
+        :root {
+            --bg-color: #f0f4f8;
+            --card-bg: #ffffff;
+            --primary: #2b6cb0;
+            --success: #48bb78;
+            --text: #2d3748;
+            --border: #e2e8f0;
+            --accent: #ed8936;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        header, .stats-card, .archive-card {
+            margin-bottom: 16px;
+            background: var(--card-bg);
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            border: 1px solid var(--border);
+        }
+
+        header { text-align: center; }
+        header h1 { font-size: 1.4rem; color: var(--primary); margin-bottom: 12px; }
+
+        .setup-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            text-align: left;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .input-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .input-group input {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .input-group input:focus { border-color: var(--primary); }
+
+        .week-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            border: 1px solid var(--border);
+        }
+
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        .week-title { font-weight: bold; font-size: 1.1rem; }
+        .date-range { font-size: 0.85rem; color: #718096; }
+
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: #f7fafc;
+            padding: 8px;
+            border-radius: 8px;
+            gap: 8px;
+            text-align: center;
+        }
+
+        .stat { display: flex; flex-direction: column; justify-content: center; }
+        .stat-label { font-size: 0.75rem; color: #718096; margin-bottom: 2px; }
+        .stat-val { font-size: 0.95rem; font-weight: bold; }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            background: #edf2f7;
+            color: #4a5568;
+        }
+
+        .badge.passed { background: #c6f6d5; color: #22543d; }
+
+        /* Arkivering & Diagram */
+        .archive-card {
+            display: none;
+            text-align: center;
+            background: #ebf8ff;
+            border-color: #bee3f8;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        .btn:hover { opacity: 0.9; }
+
+        .chart-container {
+            position: relative;
+            margin-top: 15px;
+            background: #f7fafc;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        svg {
+            width: 100%;
+            height: 120px;
+            overflow: visible;
+        }
+
+        .history-list {
+            margin-top: 12px;
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--border);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>⛵ Regatta Tracker</h1>
+        <div class="setup-grid">
+            <div class="input-group">
+                <label>Regatta Tema</label>
+                <input type="text" id="regatta-theme" placeholder="Ex: Greek">
+            </div>
+            <div class="input-group">
+                <label>Startdatum (v. 1/4)</label>
+                <input type="date" id="start-date">
+            </div>
+        </div>
+    </header>
+
+    <div id="tracker-list"></div>
+
+    <div id="archive-section" class="archive-card">
+        <h3>🎉 Regatta avklarad!</h3>
+        <p style="font-size: 0.9rem; margin: 4px 0 10px; color: #4a5568;">Spara den här regattan i historiken och gör dig redo för nästa.</p>
+        <button class="btn" onclick="archiveCurrentRegatta()">Arkivera & Starta Nästa 🚀</button>
+    </div>
+
+    <div id="history-section" class="stats-card" style="display: none;">
+        <h3>📈 Long-term Tracking</h3>
+        <div class="results" style="margin-top:10px; margin-bottom: 15px;">
+            <div class="stat">
+                <span class="stat-label">Antal Regattor</span>
+                <span class="stat-val" id="total-regattas">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Totalpoäng (All time)</span>
+                <span class="stat-val" id="all-time-points">0</span>
+            </div>
+        </div>
+        
+        <div class="chart-container">
+            <span class="stat-label" style="display:block; margin-bottom:5px;">Formkurva (Totalpoäng per regatta)</span>
+            <svg id="trend-chart"></svg>
+        </div>
+
+        <div class="history-list" id="history-rows"></div>
+    </div>
+</div>
+
+<script>
+    const MIN_POINTS = 1500;
+    let config = { theme: "Greek", startDate: "2026-07-13" };
+    let pointsData = {};
+    let historyData = [];
+
+    // Ladda data
+    try {
+        const savedConfig = localStorage.getItem('regatta_config');
+        if (savedConfig) config = JSON.parse(savedConfig);
+        
+        const savedPoints = localStorage.getItem('regatta_points');
+        if (savedPoints) pointsData = JSON.parse(savedPoints);
+
+        const savedHistory = localStorage.getItem('regatta_history');
+        if (savedHistory) historyData = JSON.parse(savedHistory);
+    } catch (e) {
+        console.error("Fel vid laddning av data", e);
+    }
+
+    const themeInput = document.getElementById('regatta-theme');
+    const startDateInput = document.getElementById('start-date');
+    
+    themeInput.value = config.theme || "";
+    startDateInput.value = config.startDate || "";
+
+    themeInput.addEventListener('input', updateConfig);
+    startDateInput.addEventListener('change', updateConfig);
+
+    function updateConfig() {
+        config.theme = themeInput.value;
+        config.startDate = startDateInput.value;
+        localStorage.setItem('regatta_config', JSON.stringify(config));
+        renderTracker();
+    }
+
+    function savePoints(weekNum, value) {
+        pointsData[weekNum] = value;
+        localStorage.setItem('regatta_points', JSON.stringify(pointsData));
+        calculateWeek(weekNum);
+        checkCompletion();
+    }
+
+    function calculateWeek(weekNum) {
+        const input = document.getElementById(`p-${weekNum}`);
+        if (!input) return;
+        
+        const val = parseInt(input.value) || 0;
+        const overMin = Math.max(0, val - MIN_POINTS);
+        const avgPerDay = Math.round(val / 7);
+        const isPassed = val >= MIN_POINTS;
+
+        document.getElementById(`over-${weekNum}`).innerText = val > 0 ? overMin : 0;
+        document.getElementById(`avg-${weekNum}`).innerText = val > 0 ? avgPerDay : 0;
+        
+        const badge = document.getElementById(`badge-${weekNum}`);
+        if (badge) {
+            if (isPassed && val > 0) {
+                badge.innerText = "✅ 1500 nått!";
+                badge.classList.add('passed');
+            } else {
+                badge.innerText = "⏳ Ej nått";
+                badge.classList.remove('passed');
+            }
+        }
+    }
+
+    // Kolla om alla 4 veckor har fyllts i för att visa arkiveringsknappen
+    function checkCompletion() {
+        const allDone = [1, 2, 3, 4].every(num => pointsData[num] && parseInt(pointsData[num]) >= 0);
+        document.getElementById('archive-section').style.display = allDone ? 'block' : 'none';
+    }
+
+    function archiveCurrentRegatta() {
+        let total = 0;
+        for(let i=1; i<=4; i++) {
+            total += parseInt(pointsData[i]) || 0;
+        }
+
+        // Lägg till i historiken
+        const record = {
+            theme: config.theme || "Regatta",
+            totalPoints: total,
+            date: config.startDate
+        };
+        historyData.push(record);
+        localStorage.setItem('regatta_history', JSON.stringify(historyData));
+
+        // Räkna ut nästa startdatum automatiskt (4 veckor = 28 dagar framåt)
+        const parts = config.startDate.split('-');
+        let nextDate = new Date(parts[0], parts[1] - 1, parts[2]);
+        nextDate.setDate(nextDate.getDate() + 28);
+
+        // Nollställ nuvarande tracker för nästa omgång
+        config.theme = ""; 
+        config.startDate = formatDate(nextDate);
+        pointsData = {};
+
+        localStorage.setItem('regatta_config', JSON.stringify(config));
+        localStorage.setItem('regatta_points', JSON.stringify(pointsData));
+
+        // Uppdatera UI
+        themeInput.value = "";
+        startDateInput.value = config.startDate;
+        
+        renderTracker();
+        renderHistory();
+        checkCompletion();
+    }
+
+    function formatDate(date) {
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    }
+
+    function renderHistory() {
+        const historySection = document.getElementById('history-section');
+        const rowsContainer = document.getElementById('history-rows');
+        const svg = document.getElementById('trend-chart');
+
+        if (historyData.length === 0) {
+            historySection.style.display = 'none';
+            return;
+        }
+        historySection.style.display = 'block';
+
+        // Stats
+        document.getElementById('total-regattas').innerText = historyData.length;
+        const allTimeSum = historyData.reduce((sum, r) => sum + r.totalPoints, 0);
+        document.getElementById('all-time-points').innerText = allTimeSum;
+
+        // Lista rader
+        rowsContainer.innerHTML = '';
+        historyData.slice().reverse().forEach(r => {
+            rowsContainer.innerHTML += `
+                <div class="history-item">
+                    <strong>${r.theme}</strong>
+                    <span>${r.totalPoints} poäng (${r.date})</span>
+                </div>
+            `;
+        });
+
+        // Rita SVG-diagram dynamiskt
+        if (historyData.length > 0) {
+            const width = 500;
+            const height = 100;
+            const padding = 10;
+            
+            const maxVal = Math.max(...historyData.map(r => r.totalPoints), 6000); // lägst skala till 6000 poäng
+            const minVal = Math.min(...historyData.map(r => r.totalPoints), 0);
+
+            let pointsArray = [];
+            const step = historyData.length > 1 ? (width - padding * 2) / (historyData.length - 1) : 0;
+
+            historyData.forEach((r, idx) => {
+                const x = padding + idx * step;
+                // Skala y-axeln
+                const y = height - padding - ((r.totalPoints - minVal) / (maxVal - minVal || 1)) * (height - padding * 2);
+                pointsArray.push(`${x},${y}`);
+            });
+
+            const pointsStr = pointsArray.join(' ');
+            
+            // Generera punkter och linjer i SVG:n
+            let svgContent = `<polyline points="${pointsStr}" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+            
+            // Rita prickar på varje mätpunkt
+            historyData.forEach((r, idx) => {
+                const [x, y] = pointsArray[idx].split(',');
+                svgContent += `<circle cx="${x}" cy="${y}" r="4" fill="var(--accent)" />`;
+                // Lägg till text ovanför om det inte är för trångt
+                if(historyData.length <= 6) {
+                    svgContent += `<text x="${x}" y="${y - 8}" font-size="10" font-weight="bold" text-anchor="middle" fill="var(--text)">${r.totalPoints}</text>`;
+                }
+            });
+
+            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+            svg.innerHTML = svgContent;
+        }
+    }
+
+    function renderTracker() {
+        const container = document.getElementById('tracker-list');
+        container.innerHTML = '';
+
+        if (!config.startDate) {
+            container.innerHTML = '<p style="text-align:center;color:#718096;margin-top:20px;">Välj ett startdatum ovan 📅</p>';
+            return;
+        }
+
+        for (let i = 1; i <= 4; i++) {
+            const parts = config.startDate.split('-');
+            let weekStart = new Date(parts[0], parts[1] - 1, parts[2]);
+            weekStart.setDate(weekStart.getDate() + (i - 1) * 7);
+            
+            let weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekStart.getDate() + 7);
+
+            const initialValue = pointsData[i] || "";
+            const currentTheme = config.theme || "Regatta";
+
+            const card = document.createElement('div');
+            card.className = 'week-card';
+            card.innerHTML = `
+                <div class="week-header">
+                    <div>
+                        <div class="week-title">${currentTheme} ${i}/4</div>
+                        <div class="date-range">${formatDate(weekStart)} till ${formatDate(weekEnd)}</div>
+                    </div>
+                    <div id="badge-${i}" class="badge">⏳ Ej nått</div>
+                </div>
+                <div class="grid-inputs">
+                    <div class="input-group">
+                        <label>Dina Poäng</label>
+                        <input type="number" id="p-${i}" value="${initialValue}" placeholder="0" inputmode="numeric">
+                    </div>
+                    <div class="results">
+                        <div class="stat">
+                            <span class="stat-label">Utöver min</span>
+                            <span class="stat-val" id="over-${i}">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Snitt/dag</span>
+                            <span class="stat-val" id="avg-${i}">0</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+
+            const input = card.querySelector('input');
+            input.addEventListener('input', () => savePoints(i, input.value));
+            
+            if (initialValue) {
+                calculateWeek(i);
+            }
+        }
+    }
+
+    // Kör igång
+    renderTracker();
+    renderHistory();
+    checkCompletion();
+</script>
+</body>
+</html>
