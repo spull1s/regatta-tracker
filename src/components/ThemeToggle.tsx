@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Sun, Moon } from 'lucide-react';
 import { Theme } from '../types';
 
@@ -7,6 +8,18 @@ interface ThemeToggleProps {
 }
 
 export default function ThemeToggle({ theme, onToggle }: ThemeToggleProps) {
+  // ⚡ DENNA HOOK TVINGAR WEBB-ROWSERN ATT LYDA OCH SPARA VALET!
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      root.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [theme]);
+
   return (
     <button
       id="theme-toggle-btn"
