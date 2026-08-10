@@ -14,7 +14,7 @@ import {
   X
 } from 'lucide-react';
 import { RegattaConfig, RegattaPoints, RegattaHistoryItem, Theme, JSONBinConfig } from './types';
-import ThemeToggle from './components/ThemeToggle';
+// import ThemeToggle from './components/ThemeToggle';
 import RegattaWeekCard from './components/RegattaWeekCard';
 import StatisticsPanel from './components/StatisticsPanel';
 import SyncManager from './components/SyncManager';
@@ -76,7 +76,7 @@ export default function App() {
     return { apiKey: '', binId: '', autoSync: false };
   });
 
-  const [theme, setTheme] = useState<Theme>(() => {
+ const [theme, setTheme] = useState<Theme>('dark'); => {
     try {
       const saved = localStorage.getItem('regatta_theme_mode');
       if (saved === 'dark' || saved === 'light') return saved;
@@ -316,7 +316,6 @@ export default function App() {
               <HelpCircle className="w-5 h-5" />
             </button>
 
-            <ThemeToggle theme={theme} onToggle={toggleTheme} />
           </div>
         </div>
       </header>
