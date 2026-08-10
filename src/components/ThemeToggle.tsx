@@ -7,7 +7,7 @@ interface ThemeToggleProps {
 }
 
 export default function ThemeToggle({ theme, onToggle }: ThemeToggleProps) {
-  return (
+  return null; (
     <button
       id="theme-toggle-btn"
       onClick={onToggle}
