@@ -245,27 +245,27 @@ export default function SyncManager({
   };
 
   return (
-    <div id="sync-manager-container" className="glass-panel border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-5 md:p-6 shadow-xl relative overflow-hidden">
+    <div id="sync-manager-container" className="glass-panel bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 rounded-3xl p-5 md:p-6 shadow-md dark:shadow-xl relative overflow-hidden">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h2 className="text-lg font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
+          <h2 className="text-lg font-black text-slate-900 dark:text-slate-100 flex items-center gap-2">
             <Cloud className="w-5 h-5 text-sky-500 animate-pulse" />
             Cloud & Device Sync Center
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
             Keep your co-op score updated seamlessly across all your devices using JSONBin.io or direct codes.
           </p>
         </div>
 
         {/* Tab Controls */}
-        <div className="flex bg-slate-100/90 dark:bg-slate-950 p-1 rounded-2xl self-start sm:self-auto border border-slate-200/60 dark:border-slate-850">
+        <div className="flex bg-slate-100 dark:bg-slate-950 p-1 rounded-2xl self-start sm:self-auto border border-slate-200 dark:border-slate-800">
           <button
             id="sync-tab-cloud"
             onClick={() => setActiveTab('cloud')}
             className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'cloud'
                 ? 'bg-sky-500 text-white shadow-md shadow-sky-500/20'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             <Cloud className="w-3.5 h-3.5" />
@@ -276,8 +276,8 @@ export default function SyncManager({
             onClick={() => { setActiveTab('export'); setImportError(null); setParsedData(null); }}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               activeTab === 'export'
-                ? 'bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-300 shadow-sm'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+                ? 'bg-white dark:bg-slate-800 text-sky-700 dark:text-sky-300 shadow-xs font-extrabold'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             Export Code
@@ -287,8 +287,8 @@ export default function SyncManager({
             onClick={() => setActiveTab('import')}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               activeTab === 'import'
-                ? 'bg-white dark:bg-slate-800 text-sky-600 dark:text-sky-300 shadow-sm'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+                ? 'bg-white dark:bg-slate-800 text-sky-700 dark:text-sky-300 shadow-xs font-extrabold'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
           >
             Import Code
@@ -304,25 +304,25 @@ export default function SyncManager({
             <div
               className={`p-3.5 rounded-2xl text-xs font-medium flex items-center gap-2.5 transition-all ${
                 syncStatusMsg.type === 'success'
-                  ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300'
+                  ? 'bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-200 dark:border-emerald-500/30 text-emerald-900 dark:text-emerald-300'
                   : syncStatusMsg.type === 'error'
-                  ? 'bg-rose-500/15 border border-rose-500/30 text-rose-800 dark:text-rose-300'
-                  : 'bg-sky-500/15 border border-sky-500/30 text-sky-800 dark:text-sky-300'
+                  ? 'bg-rose-50 dark:bg-rose-500/15 border border-rose-200 dark:border-rose-500/30 text-rose-900 dark:text-rose-300'
+                  : 'bg-sky-50 dark:bg-sky-500/15 border border-sky-200 dark:border-sky-500/30 text-sky-900 dark:text-sky-300'
               }`}
             >
               {syncStatusMsg.type === 'success' ? (
-                <Check className="w-4 h-4 text-emerald-500 shrink-0" />
+                <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-500 shrink-0" />
               ) : syncStatusMsg.type === 'error' ? (
-                <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
+                <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-500 shrink-0" />
               ) : (
-                <RefreshCw className="w-4 h-4 text-sky-500 animate-spin shrink-0" />
+                <RefreshCw className="w-4 h-4 text-sky-600 dark:text-sky-500 animate-spin shrink-0" />
               )}
               <span>{syncStatusMsg.text}</span>
             </div>
           )}
 
           {/* Configuration Inputs */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50/80 dark:bg-slate-950 p-4.5 rounded-2xl border border-slate-200/80 dark:border-slate-850">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 dark:bg-slate-950 p-4.5 rounded-2xl border border-slate-200 dark:border-slate-800">
             {/* API Key Input */}
             <div className="space-y-1.5">
               <label htmlFor="jsonbin-api-key" className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center justify-between">
@@ -334,7 +334,7 @@ export default function SyncManager({
                   href="https://jsonbin.io/app/api-keys"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-[10px] text-sky-500 hover:underline font-semibold"
+                  className="text-[10px] text-sky-600 dark:text-sky-400 hover:underline font-semibold"
                 >
                   Get Key ↗
                 </a>
@@ -345,7 +345,7 @@ export default function SyncManager({
                 value={jsonBinConfig.apiKey}
                 onChange={(e) => onUpdateJSONBinConfig({ apiKey: e.target.value })}
                 placeholder="e.g. $2a$10$..."
-                className="w-full h-11 px-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full h-11 px-3.5 rounded-xl border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
             </div>
 
@@ -373,7 +373,7 @@ export default function SyncManager({
                 value={jsonBinConfig.binId}
                 onChange={(e) => onUpdateJSONBinConfig({ binId: e.target.value })}
                 placeholder="e.g. 660f..."
-                className="w-full h-11 px-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full h-11 px-3.5 rounded-xl border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
             </div>
           </div>
@@ -381,7 +381,7 @@ export default function SyncManager({
           {/* Action Row & Auto Sync Toggle */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-2">
             {/* Auto Sync Switch */}
-            <div className="flex items-center gap-3 bg-slate-50 dark:bg-slate-950 p-3 rounded-2xl border border-slate-200/80 dark:border-slate-850">
+            <div className="flex items-center gap-3 bg-slate-50 dark:bg-slate-950 p-3 rounded-2xl border border-slate-200 dark:border-slate-800">
               <button
                 type="button"
                 role="switch"
@@ -398,7 +398,7 @@ export default function SyncManager({
                 />
               </button>
               <div>
-                <span className="text-xs font-extrabold text-slate-800 dark:text-slate-200 block">
+                <span className="text-xs font-extrabold text-slate-900 dark:text-slate-200 block">
                   Auto-Sync Changes
                 </span>
                 <span className="text-[10px] text-slate-500 dark:text-slate-400 block">
@@ -432,7 +432,7 @@ export default function SyncManager({
           </div>
 
           {jsonBinConfig.lastSyncedAt && (
-            <div className="text-[11px] text-slate-400 dark:text-slate-500 text-right font-medium">
+            <div className="text-[11px] text-slate-500 dark:text-slate-500 text-right font-medium">
               Last synced: {jsonBinConfig.lastSyncedAt}
             </div>
           )}
@@ -442,15 +442,15 @@ export default function SyncManager({
       {/* Export Code Tab */}
       {activeTab === 'export' && (
         <div className="space-y-5 animate-fade-in">
-          <div className="flex flex-col md:flex-row items-center gap-4 bg-sky-50/50 dark:bg-sky-500/5 p-4 rounded-2xl border border-sky-100/50 dark:border-sky-500/10">
+          <div className="flex flex-col md:flex-row items-center gap-4 bg-sky-50 dark:bg-sky-500/5 p-4 rounded-2xl border border-sky-100 dark:border-sky-500/10">
             <div className="flex items-center gap-3 justify-center text-slate-600 dark:text-slate-400">
               <Smartphone className="w-8 h-8 text-sky-500 shrink-0" />
               <ArrowRight className="w-4 h-4 text-slate-400" />
               <Laptop className="w-10 h-10 text-sky-500 shrink-0" />
             </div>
             <div className="flex-1 text-center md:text-left">
-              <h3 className="text-xs font-bold text-slate-800 dark:text-slate-200">Offline String Token Transfer</h3>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+              <h3 className="text-xs font-bold text-slate-900 dark:text-slate-200">Offline String Token Transfer</h3>
+              <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
                 Generate a compressed offline code block to paste on another device.
               </p>
             </div>
@@ -481,7 +481,7 @@ export default function SyncManager({
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="sync-token-textarea" className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">
+            <label htmlFor="sync-token-textarea" className="text-[10px] font-bold text-slate-500 dark:text-slate-500 uppercase tracking-widest block">
               Raw Backup String
             </label>
             <textarea
@@ -489,7 +489,7 @@ export default function SyncManager({
               readOnly
               value={getExportToken()}
               onClick={(e) => (e.target as HTMLTextAreaElement).select()}
-              className="w-full h-14 p-2 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-xl text-[10px] font-mono text-slate-500 dark:text-slate-400 resize-none focus:outline-none"
+              className="w-full h-14 p-2 bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-850 rounded-xl text-[10px] font-mono text-slate-700 dark:text-slate-400 resize-none focus:outline-none"
             />
           </div>
         </div>
@@ -508,12 +508,12 @@ export default function SyncManager({
               value={importToken}
               onChange={(e) => handleTokenChange(e.target.value)}
               placeholder="Paste exported token code here..."
-              className="w-full p-3 bg-slate-50 dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-2xl text-xs font-mono text-slate-700 dark:text-slate-300 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="w-full p-3 bg-white dark:bg-slate-955 border border-slate-300 dark:border-slate-800 rounded-2xl text-xs font-mono text-slate-900 dark:text-slate-300 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500"
             />
           </div>
 
           {importError && (
-            <div className="p-3.5 bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/30 text-rose-700 dark:text-rose-300 rounded-2xl text-xs flex items-start gap-2.5">
+            <div className="p-3.5 bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/30 text-rose-800 dark:text-rose-300 rounded-2xl text-xs flex items-start gap-2.5">
               <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-500" />
               <div>
                 <p className="font-bold">Parsing Error</p>
@@ -523,18 +523,18 @@ export default function SyncManager({
           )}
 
           {parsedData && (
-            <div className="p-4 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/30 text-emerald-800 dark:text-emerald-200 rounded-2xl space-y-2 text-xs">
-              <p className="font-bold text-sm text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
+            <div className="p-4 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/30 text-emerald-900 dark:text-emerald-200 rounded-2xl space-y-2 text-xs">
+              <p className="font-bold text-sm text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
                 <Check className="w-4 h-4 text-emerald-500" />
                 Token Parsed Successfully!
               </p>
-              <div className="grid grid-cols-2 gap-2 mt-2 pt-2 border-t border-emerald-200/40 dark:border-emerald-800/40 text-[11px]">
+              <div className="grid grid-cols-2 gap-2 mt-2 pt-2 border-t border-emerald-200/60 dark:border-emerald-800/40 text-[11px]">
                 <div>
-                  <span className="font-semibold block text-slate-500">Theme:</span>
+                  <span className="font-semibold block text-slate-600 dark:text-slate-400">Theme:</span>
                   {parsedData.config.theme || 'No theme named'}
                 </div>
                 <div>
-                  <span className="font-semibold block text-slate-500">Scores:</span>
+                  <span className="font-semibold block text-slate-600 dark:text-slate-400">Scores:</span>
                   {Object.keys(parsedData.points).filter(k => parsedData.points[Number(k)] > 0).length} week(s)
                 </div>
               </div>

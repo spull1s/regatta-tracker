@@ -71,63 +71,63 @@ export default function StatisticsPanel({
           </p>
         </div>
 
-        <div className="glass-panel border border-slate-200/80 dark:border-slate-800/80 p-5 rounded-3xl shadow-sm hover:border-sky-500/50 transition-all relative overflow-hidden group">
+        <div className="glass-panel bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 p-5 rounded-3xl shadow-sm hover:border-sky-500/50 transition-all relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-3 text-emerald-500/10 dark:text-emerald-400/5 group-hover:scale-110 transition-transform">
             <Calendar className="w-14 h-14" />
           </div>
-          <span className="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Seasons Logged</span>
-          <span className="text-2xl font-black text-slate-800 dark:text-slate-100 mt-1 block">
+          <span className="text-[10px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-widest block">Seasons Logged</span>
+          <span className="text-2xl font-black text-slate-900 dark:text-slate-100 mt-1 block">
             {totalSeasons} <span className="text-xs font-medium text-slate-500">archived</span>
           </span>
-          <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-2 flex items-center gap-1">
-            <TrendingUp className="w-3 h-3 text-emerald-500 shrink-0" />
+          <p className="text-[10px] text-slate-600 dark:text-slate-400 mt-2 flex items-center gap-1 font-medium">
+            <TrendingUp className="w-3 h-3 text-emerald-600 dark:text-emerald-500 shrink-0" />
             Saved & synced across devices
           </p>
         </div>
 
-        <div className="glass-panel border border-slate-200/80 dark:border-slate-800/80 p-5 rounded-3xl shadow-sm hover:border-sky-500/50 transition-all relative overflow-hidden group">
+        <div className="glass-panel bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 p-5 rounded-3xl shadow-sm hover:border-sky-500/50 transition-all relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-3 text-indigo-500/10 dark:text-indigo-400/5 group-hover:scale-110 transition-transform">
             <Award className="w-14 h-14" />
           </div>
-          <span className="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Archived Average</span>
-          <span className="text-2xl font-black text-slate-800 dark:text-slate-100 mt-1 block">
+          <span className="text-[10px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-widest block">Archived Average</span>
+          <span className="text-2xl font-black text-slate-900 dark:text-slate-100 mt-1 block">
             {averagePoints.toLocaleString()} <span className="text-xs font-medium text-slate-500">pts</span>
           </span>
-          <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-2">
+          <p className="text-[10px] text-slate-600 dark:text-slate-400 mt-2 font-medium">
             Goal target: {seasonGoal.toLocaleString()} pts / season
           </p>
         </div>
 
-        <div className="glass-panel border border-slate-200/80 dark:border-slate-800/80 p-5 rounded-3xl shadow-sm hover:border-sky-500/50 transition-all relative overflow-hidden group">
+        <div className="glass-panel bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 p-5 rounded-3xl shadow-sm hover:border-sky-500/50 transition-all relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-3 text-amber-500/10 dark:text-amber-400/5 group-hover:scale-110 transition-transform">
             <Flame className="w-14 h-14" />
           </div>
-          <span className="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest block">Season Peak Record</span>
-          <span className="text-2xl font-black text-slate-800 dark:text-slate-100 mt-1 block">
+          <span className="text-[10px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-widest block">Season Peak Record</span>
+          <span className="text-2xl font-black text-slate-900 dark:text-slate-100 mt-1 block">
             {bestSeason ? bestSeason.totalPoints.toLocaleString() : '0'} <span className="text-xs font-medium text-slate-500">pts</span>
           </span>
-          <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-2 truncate">
+          <p className="text-[10px] text-slate-600 dark:text-slate-400 mt-2 truncate font-medium">
             {bestSeason ? `Held during "${bestSeason.theme}"` : 'Complete a season to peak!'}
           </p>
         </div>
       </div>
 
       {/* Charts Card */}
-      <div className="glass-panel border border-slate-200/80 dark:border-slate-800/80 rounded-3xl p-5 md:p-6 shadow-sm">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/60 dark:border-slate-800 pb-4 mb-5">
+      <div className="glass-panel bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 rounded-3xl p-5 md:p-6 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4 mb-5">
           <div className="flex items-center gap-2">
             <BarChart3 className="w-5 h-5 text-sky-500" />
-            <h3 className="font-extrabold text-slate-800 dark:text-slate-100 text-base">Interactive Performance Visualizers</h3>
+            <h3 className="font-extrabold text-slate-900 dark:text-slate-100 text-base">Interactive Performance Visualizers</h3>
           </div>
 
-          <div className="flex bg-slate-100 dark:bg-slate-950 p-1 rounded-2xl text-xs font-bold self-start sm:self-auto border border-slate-200/60 dark:border-slate-850">
+          <div className="flex bg-slate-100 dark:bg-slate-950 p-1 rounded-2xl text-xs font-bold self-start sm:self-auto border border-slate-200 dark:border-slate-800">
             <button
               id="chart-toggle-current"
               onClick={() => setActiveTab('current')}
               className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
                 activeTab === 'current'
                   ? 'bg-sky-500 text-white shadow-md shadow-sky-500/20'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               Current Season
@@ -139,7 +139,7 @@ export default function StatisticsPanel({
               className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
                 activeTab === 'alltime'
                   ? 'bg-sky-500 text-white shadow-md shadow-sky-500/20'
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               Long-Term Trend ({history.length})
@@ -150,13 +150,13 @@ export default function StatisticsPanel({
         {activeTab === 'current' ? (
           <div className="space-y-4">
             <div>
-              <h4 className="text-xs font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-widest flex items-center gap-1.5">
+              <h4 className="text-xs font-extrabold text-slate-800 dark:text-slate-300 uppercase tracking-widest flex items-center gap-1.5">
                 Current Series: "{currentTheme || 'Regatta'}"
-                <span className="bg-sky-500/15 text-sky-600 dark:text-sky-400 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                <span className="bg-sky-100 dark:bg-sky-500/15 text-sky-800 dark:text-sky-400 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-sky-200 dark:border-sky-500/30">
                   Live Telemetry
                 </span>
               </h4>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
                 Visualizing weekly progress against your dynamic co-op goal ({weeklyGoal.toLocaleString()} pts / week).
               </p>
             </div>

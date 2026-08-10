@@ -266,22 +266,22 @@ export default function App() {
   const seasonProgressPct = Math.min(100, Math.round((currentTotal / seasonGoal) * 100));
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 transition-colors duration-300 pb-20 sm:pb-8 selection:bg-sky-500 selection:text-white">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300 pb-20 sm:pb-8 selection:bg-sky-500 selection:text-white">
       {/* Top Navigation Bar with Frosted Glass & Neon Glow */}
-      <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80">
+      <header className="sticky top-0 z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-sky-500 to-indigo-500 text-white flex items-center justify-center shadow-lg shadow-sky-500/30 animate-glow">
               <Ship className="w-6 h-6" />
             </div>
             <div>
-              <h1 className="text-base sm:text-lg font-black tracking-tight bg-gradient-to-r from-sky-400 via-indigo-300 to-emerald-400 bg-clip-text text-transparent uppercase flex items-center gap-1.5">
+              <h1 className="text-base sm:text-lg font-black tracking-tight bg-gradient-to-r from-sky-600 via-indigo-600 to-emerald-600 dark:from-sky-400 dark:via-indigo-300 dark:to-emerald-400 bg-clip-text text-transparent uppercase flex items-center gap-1.5">
                 Regatta Tracker
-                <span className="text-[9px] bg-sky-500/20 text-sky-400 border border-sky-500/30 px-2 py-0.5 rounded-full font-extrabold uppercase tracking-widest hidden sm:inline-block">
+                <span className="text-[9px] bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-400 border border-sky-300 dark:border-sky-500/30 px-2 py-0.5 rounded-full font-extrabold uppercase tracking-widest hidden sm:inline-block">
                   Co-op
                 </span>
               </h1>
-              <span className="text-[10px] text-slate-400 block -mt-0.5 font-bold tracking-wider uppercase">
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 block -mt-0.5 font-bold tracking-wider uppercase">
                 Township Co-op Score Companion
               </span>
             </div>
@@ -301,7 +301,7 @@ export default function App() {
             <button
               id="settings-toggle-btn"
               onClick={() => setShowSettingsModal(prev => !prev)}
-              className="p-2.5 rounded-xl border border-slate-800 bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 transition-all cursor-pointer shadow-sm flex items-center justify-center"
+              className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer shadow-xs flex items-center justify-center"
               title="Open Settings"
             >
               <Settings className="w-5 h-5" />
@@ -310,7 +310,7 @@ export default function App() {
             <button
               id="help-toggle-btn"
               onClick={() => setShowSyncTutorial(prev => !prev)}
-              className="p-2.5 rounded-xl border border-slate-800 bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 transition-all cursor-pointer shadow-sm flex items-center justify-center"
+              className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer shadow-xs flex items-center justify-center"
               title="Show guide"
             >
               <HelpCircle className="w-5 h-5" />
@@ -323,28 +323,28 @@ export default function App() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 space-y-6">
         {/* Season Overall Progress Banner (Glowing Tactile Bar) */}
-        <div className="glass-panel border border-slate-800/80 rounded-3xl p-5 md:p-6 shadow-xl relative overflow-hidden group">
+        <div className="glass-panel border border-slate-200 dark:border-slate-800/80 rounded-3xl p-5 md:p-6 shadow-md dark:shadow-xl relative overflow-hidden group">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-3">
             <div>
-              <span className="text-[10px] font-black uppercase text-sky-400 tracking-widest block flex items-center gap-1.5">
-                <Flame className="w-3.5 h-3.5 text-amber-400" />
+              <span className="text-[10px] font-black uppercase text-sky-600 dark:text-sky-400 tracking-widest block flex items-center gap-1.5">
+                <Flame className="w-3.5 h-3.5 text-amber-500" />
                 Co-op Season Goal Progress
               </span>
-              <h2 className="text-lg md:text-xl font-black text-slate-100 mt-0.5 flex items-center gap-2">
+              <h2 className="text-lg md:text-xl font-black text-slate-900 dark:text-slate-100 mt-0.5 flex items-center gap-2">
                 {config.theme ? `Theme: "${config.theme}"` : 'Active Season'}
-                <span className="text-xs font-bold text-slate-400">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
                   ({currentTotal.toLocaleString()} / {seasonGoal.toLocaleString()} PTS)
                 </span>
               </h2>
             </div>
 
             <div className="flex items-center gap-2 self-start md:self-auto">
-              <span className="text-xs font-black bg-sky-500/20 text-sky-300 border border-sky-500/30 px-3 py-1 rounded-xl">
+              <span className="text-xs font-black bg-sky-100 dark:bg-sky-500/20 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-500/30 px-3 py-1 rounded-xl">
                 Target: {weeklyGoal.toLocaleString()} pts / wk
               </span>
               <button
                 onClick={() => setShowSettingsModal(true)}
-                className="text-xs font-extrabold text-slate-400 hover:text-sky-300 underline cursor-pointer"
+                className="text-xs font-extrabold text-sky-600 dark:text-sky-400 hover:underline cursor-pointer"
               >
                 Change Goal
               </button>
@@ -353,19 +353,19 @@ export default function App() {
 
           {/* Progress Bar with Glow */}
           <div className="space-y-1.5">
-            <div className="w-full h-3.5 bg-slate-900 rounded-full overflow-hidden p-0.5 border border-slate-800">
+            <div className="w-full h-3.5 bg-slate-100 dark:bg-slate-900 rounded-full overflow-hidden p-0.5 border border-slate-200 dark:border-slate-800">
               <div
                 className={`h-full rounded-full transition-all duration-700 ${
                   seasonProgressPct >= 100
-                    ? 'bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 glow-emerald'
+                    ? 'bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 glow-emerald'
                     : 'bg-gradient-to-r from-sky-500 via-indigo-500 to-sky-400 glow-cyan'
                 }`}
                 style={{ width: `${seasonProgressPct}%` }}
               />
             </div>
-            <div className="flex justify-between items-center text-[11px] font-bold text-slate-400">
+            <div className="flex justify-between items-center text-[11px] font-bold text-slate-500 dark:text-slate-400">
               <span>0 PTS</span>
-              <span className={seasonProgressPct >= 100 ? 'text-emerald-400 font-black' : 'text-sky-400'}>
+              <span className={seasonProgressPct >= 100 ? 'text-emerald-600 dark:text-emerald-400 font-black' : 'text-sky-600 dark:text-sky-400'}>
                 {seasonProgressPct}% COMPLETE {seasonProgressPct >= 100 ? '🎉 GOAL REACHED!' : ''}
               </span>
               <span>{seasonGoal.toLocaleString()} PTS</span>
@@ -375,13 +375,13 @@ export default function App() {
 
         {/* Dynamic Help Tutorial */}
         {showSyncTutorial && (
-          <div className="bg-gradient-to-br from-indigo-900/90 via-sky-900/90 to-slate-900/90 text-white rounded-3xl p-5 md:p-6 shadow-2xl animate-fade-in relative overflow-hidden border border-sky-500/30">
+          <div className="bg-gradient-to-br from-indigo-800 via-sky-800 to-slate-900 dark:from-indigo-900/90 dark:via-sky-900/90 dark:to-slate-900/90 text-white rounded-3xl p-5 md:p-6 shadow-2xl animate-fade-in relative overflow-hidden border border-sky-400/30 dark:border-sky-500/30">
             <div className="absolute right-0 bottom-0 translate-y-1/4 translate-x-1/4 opacity-10">
               <Ship className="w-64 h-64" />
             </div>
             <div className="relative z-10 space-y-3 max-w-3xl">
               <div className="flex items-center gap-2">
-                <span className="bg-sky-500/30 text-sky-300 text-[10px] font-black tracking-widest uppercase px-2.5 py-1 rounded-md border border-sky-400/20">
+                <span className="bg-sky-500/30 text-sky-200 dark:text-sky-300 text-[10px] font-black tracking-widest uppercase px-2.5 py-1 rounded-md border border-sky-400/20">
                   Cloud & Auto Sync
                 </span>
                 <h3 className="font-extrabold text-sm md:text-base">How does JSONBin.io Cloud Sync work?</h3>
@@ -389,23 +389,23 @@ export default function App() {
               <p className="text-xs text-sky-100 leading-relaxed">
                 No more copying long strings manually! You can link your free <strong>JSONBin.io</strong> key to keep scores automatically updated between your PC and Mobile phone:
               </p>
-              <ol className="text-xs text-sky-300 bg-slate-950/80 p-4 rounded-2xl space-y-2 font-medium border border-sky-500/20">
+              <ol className="text-xs text-sky-100 dark:text-sky-300 bg-slate-900/80 dark:bg-slate-950/80 p-4 rounded-2xl space-y-2 font-medium border border-sky-400/20 dark:border-sky-500/20">
                 <li className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">1</span>
+                  <span className="w-5 h-5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">1</span>
                   <span>Open <strong>Cloud & Device Sync Center</strong> below, enter your JSONBin API Key.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">2</span>
+                  <span className="w-5 h-5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">2</span>
                   <span>Click <strong>"Auto-Create Bin"</strong> or enter an existing Bin ID.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <span className="w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">3</span>
+                  <span className="w-5 h-5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">3</span>
                   <span>Enable <strong>Auto-Sync</strong>! Any score updates are automatically saved to the cloud.</span>
                 </li>
               </ol>
               <button
                 onClick={() => setShowSyncTutorial(false)}
-                className="text-xs font-bold text-sky-400 bg-slate-900 hover:bg-slate-800 px-4 py-2 rounded-xl transition-all cursor-pointer border border-sky-500/30"
+                className="text-xs font-bold text-sky-200 dark:text-sky-400 bg-slate-900 hover:bg-slate-800 px-4 py-2 rounded-xl transition-all cursor-pointer border border-sky-500/30"
               >
                 Close guide
               </button>
@@ -415,16 +415,16 @@ export default function App() {
 
         {/* Modal: Settings (Dynamic Weekly Goal & JSONBin setup) */}
         {showSettingsModal && (
-          <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in">
-            <div className="glass-panel border border-slate-800 rounded-3xl p-6 max-w-lg w-full space-y-5 shadow-2xl relative">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-                <h3 className="text-base font-black text-slate-100 flex items-center gap-2">
+          <div className="fixed inset-0 z-50 bg-slate-900/50 dark:bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in">
+            <div className="glass-panel bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 max-w-lg w-full space-y-5 shadow-2xl relative">
+              <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+                <h3 className="text-base font-black text-slate-900 dark:text-slate-100 flex items-center gap-2">
                   <Target className="w-5 h-5 text-sky-500" />
                   Tracker & Co-op Settings
                 </h3>
                 <button
                   onClick={() => setShowSettingsModal(false)}
-                  className="p-1.5 text-slate-400 hover:text-white rounded-lg transition-colors cursor-pointer"
+                  className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-lg transition-colors cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -432,9 +432,9 @@ export default function App() {
 
               {/* Dynamic Co-op Goal Setting */}
               <div className="space-y-2">
-                <label htmlFor="setting-weekly-goal" className="text-xs font-bold text-slate-300 flex items-center justify-between">
+                <label htmlFor="setting-weekly-goal" className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center justify-between">
                   <span>Weekly Point Goal</span>
-                  <span className="text-[10px] text-sky-400 font-normal">(Default: 5000 pts)</span>
+                  <span className="text-[10px] text-sky-600 dark:text-sky-400 font-normal">(Default: 5000 pts)</span>
                 </label>
                 <div className="relative">
                   <input
@@ -450,13 +450,13 @@ export default function App() {
                         weeklyGoal: isNaN(parsed) ? 5000 : Math.max(100, parsed),
                       }));
                     }}
-                    className="w-full h-11 px-3.5 rounded-xl border border-slate-800 bg-slate-950 text-slate-100 font-extrabold text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    className="w-full h-11 px-3.5 rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-extrabold text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
                   />
-                  <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-500">
+                  <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 dark:text-slate-500">
                     PTS / WEEK
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-400">
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">
                   Season target will automatically scale to {((config.weeklyGoal || 5000) * 4).toLocaleString()} points across 4 weeks.
                 </p>
               </div>
@@ -464,7 +464,7 @@ export default function App() {
               {/* Theme & Start Date */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label htmlFor="regatta-theme-input" className="text-xs font-bold text-slate-300">
+                  <label htmlFor="regatta-theme-input" className="text-xs font-bold text-slate-700 dark:text-slate-300">
                     Season Theme
                   </label>
                   <input
@@ -473,12 +473,12 @@ export default function App() {
                     value={config.theme}
                     onChange={(e) => setConfig(prev => ({ ...prev, theme: e.target.value }))}
                     placeholder="e.g. Space, Pirate"
-                    className="w-full h-11 px-3.5 rounded-xl border border-slate-800 bg-slate-950 text-slate-100 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    className="w-full h-11 px-3.5 rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label htmlFor="start-date-input" className="text-xs font-bold text-slate-300">
+                  <label htmlFor="start-date-input" className="text-xs font-bold text-slate-700 dark:text-slate-300">
                     Start Date
                   </label>
                   <input
@@ -486,7 +486,7 @@ export default function App() {
                     type="date"
                     value={config.startDate}
                     onChange={(e) => setConfig(prev => ({ ...prev, startDate: e.target.value }))}
-                    className="w-full h-11 px-3.5 rounded-xl border border-slate-800 bg-slate-950 text-slate-100 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    className="w-full h-11 px-3.5 rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-sky-500"
                   />
                 </div>
               </div>
@@ -510,16 +510,16 @@ export default function App() {
           <div className="lg:col-span-7 space-y-5">
             <div className="flex items-center justify-between pb-1">
               <div>
-                <h2 className="text-base md:text-lg font-black text-slate-100 tracking-tight flex items-center gap-2">
-                  <span className="text-sky-400">🏆</span>
+                <h2 className="text-base md:text-lg font-black text-slate-900 dark:text-slate-100 tracking-tight flex items-center gap-2">
+                  <span className="text-sky-500">🏆</span>
                   Active Series Roadmap
                 </h2>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   Input scores weekly. Weekly goal is set to {weeklyGoal.toLocaleString()} pts.
                 </p>
               </div>
 
-              <span className="text-[10px] bg-sky-500/20 text-sky-300 font-black px-2.5 py-1 rounded-lg border border-sky-500/30 uppercase tracking-wider">
+              <span className="text-[10px] bg-sky-100 dark:bg-sky-500/20 text-sky-800 dark:text-sky-300 font-black px-2.5 py-1 rounded-lg border border-sky-200 dark:border-sky-500/30 uppercase tracking-wider">
                 {config.theme || 'Untitled'}
               </span>
             </div>
@@ -572,13 +572,13 @@ export default function App() {
                 </div>
               </div>
             ) : (
-              <div className="glass-panel border border-slate-800/80 rounded-3xl p-4.5 flex items-start gap-3.5 shadow-xs">
-                <div className="p-2 bg-sky-500/10 rounded-xl shrink-0 mt-0.5">
-                  <Info className="w-4 h-4 text-sky-400" />
+              <div className="glass-panel bg-white/90 dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 rounded-3xl p-4.5 flex items-start gap-3.5 shadow-sm">
+                <div className="p-2 bg-sky-100 dark:bg-sky-500/10 rounded-xl shrink-0 mt-0.5">
+                  <Info className="w-4 h-4 text-sky-600 dark:text-sky-400" />
                 </div>
                 <div className="text-xs space-y-1 leading-relaxed">
-                  <span className="font-bold text-slate-200">How to unlock season archiving:</span>
-                  <p className="text-slate-400">
+                  <span className="font-bold text-slate-800 dark:text-slate-200">How to unlock season archiving:</span>
+                  <p className="text-slate-600 dark:text-slate-400">
                     Reach your weekly goal of {weeklyGoal.toLocaleString()} points on all 4 weeks. Once cleared, an archive prompt will appear here to save your victory to the stats history!
                   </p>
                 </div>
@@ -611,10 +611,10 @@ export default function App() {
       </main>
 
       {/* Floating Action Dock for Mobile (<640px) */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-slate-950/90 backdrop-blur-xl border-t border-slate-800 p-2.5 sm:hidden flex items-center justify-around">
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 p-2.5 sm:hidden flex items-center justify-around shadow-lg">
         <button
           onClick={() => setShowSettingsModal(true)}
-          className="flex flex-col items-center gap-0.5 text-slate-400 hover:text-sky-400 text-[10px] font-bold"
+          className="flex flex-col items-center gap-0.5 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 text-[10px] font-bold"
         >
           <Target className="w-5 h-5 text-sky-500" />
           <span>Goal ({weeklyGoal})</span>
@@ -625,9 +625,9 @@ export default function App() {
             const el = document.getElementById('sync-manager-container');
             if (el) el.scrollIntoView({ behavior: 'smooth' });
           }}
-          className="flex flex-col items-center gap-0.5 text-slate-400 hover:text-sky-400 text-[10px] font-bold"
+          className="flex flex-col items-center gap-0.5 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 text-[10px] font-bold"
         >
-          <Cloud className="w-5 h-5 text-indigo-400" />
+          <Cloud className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
           <span>Cloud Sync</span>
         </button>
 
@@ -636,19 +636,19 @@ export default function App() {
             const el = document.getElementById('statistics-panel');
             if (el) el.scrollIntoView({ behavior: 'smooth' });
           }}
-          className="flex flex-col items-center gap-0.5 text-slate-400 hover:text-sky-400 text-[10px] font-bold"
+          className="flex flex-col items-center gap-0.5 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 text-[10px] font-bold"
         >
-          <Sparkles className="w-5 h-5 text-amber-400" />
+          <Sparkles className="w-5 h-5 text-amber-500 dark:text-amber-400" />
           <span>Stats</span>
         </button>
       </div>
 
-      <footer className="border-t border-slate-900 mt-12 py-8 bg-slate-950">
+      <footer className="border-t border-slate-200 dark:border-slate-900 mt-12 py-8 bg-slate-100/80 dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-2">
           <p className="text-xs text-slate-500 font-bold tracking-wide uppercase">
             Township Regatta Tracker Companion
           </p>
-          <p className="text-[11px] text-slate-600">
+          <p className="text-[11px] text-slate-500 dark:text-slate-600">
             Cloud Auto-Sync • Dynamic Goals • Tactile PWA Interface
           </p>
         </div>
